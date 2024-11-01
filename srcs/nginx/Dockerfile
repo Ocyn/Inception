@@ -1,7 +1,7 @@
 # OS
 FROM alpine:3.19.3
 
-# Update apk, install nginx and openssl, then clear th cache
+# Update apk, install nginx and openssl, then clear the cache
 RUN apk update; apk upgrade; \
 apk add nginx openssl \
 rm -rf /var/cache/apk/*
@@ -10,10 +10,6 @@ rm -rf /var/cache/apk/*
 RUN openssl req -x509 -nodes -newkey rsa:2048 \
 -keyout /etc/ssl/jcuzin.42.fr.key -out /etc/ssl/jcuzin.42.fr.crt \
 -subj "/C=FR/L=Lyon/O=42/OU=42Lyon/CN=jcuzin"
-
-# RUN openssl x509 -signkey /etc/ssl/jcuzin.42.fr.key \
-# -in /etc/ssl/jcuzin.42.fr.csr \
-# -req -days 730 -out /etc/ssl/jcuzin.42.fr.crt
 
 COPY ./src/nginx.conf /etc/nginx/nginx.conf.d/
 

@@ -7,6 +7,11 @@ services:
       - "443:443"
     networks:
       - dock_net
+  mariadb:
+    build:
+      context: ./mariadb
+    networks:
+      - dock_net
 
 networks:
   dock_net:
