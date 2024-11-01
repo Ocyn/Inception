@@ -1,0 +1,13 @@
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "443:443"
+    networks:
+      - dock_net
+
+networks:
+  dock_net:
+    driver: bridge
