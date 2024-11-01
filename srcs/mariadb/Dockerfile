@@ -10,4 +10,4 @@ rm -rf /var/cache/apk/*
 # RUN rc-service mariadb start
 
 # Start Mariadb service
-CMD ["mariabd"]
+CMD ["mariadb"]
