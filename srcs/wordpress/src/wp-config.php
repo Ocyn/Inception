@@ -1,5 +1,5 @@
 <?php
-define('DB_NAME', 'wordpress');
-define('DB_USER', 'wordpress');
+define('DB_NAME', 'mariadb');
+define('DB_USER', 'root');
 define('DB_PASSWORD', 'yuri');
 define('DB_HOST', 'mariadb');
