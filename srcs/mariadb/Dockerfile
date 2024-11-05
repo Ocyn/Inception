@@ -3,18 +3,26 @@ FROM alpine:3.19.3
 
 # Update apk, install mariadb then clear the cache
 RUN apk update; apk upgrade; \
-apk add mysql mysql-client openrc \
+apk add --no-cache mysql mysql-client openrc; \
 rm -rf /var/cache/apk/*
 
-# RUN rc-service mariadb start
+RUN mkdir /run/openrc/ ; touch /run/openrc/softlevel; openrc
+
+# Environnment variables for mariadb settings
 ENV MYSQL_ROOT_PASSWORD=yuri \
 MYSQL_DISABLE_REMOTE_ROOT=true \
 MYSQL_REMOVE_ANONYMOUS_USERS=true \
 MYSQL_REMOVE_TEST_DATABASE=true
 
 
-RUN rc-service mariadb setup; \
-mysql_install_db --user=mysql --datadir=/var/lib/mysql
+RUN mariadb-install-db --user=root --ldata=/var/lib/mysql; \
+mkdir /run/mysqld;
+
+RUN echo "[mysqld]" >> /etc/my.cnf; \
+echo "skip-networking=0" >> /etc/my.cnf; \
+echo "skip-bind-address" >> /etc/my.cnf;
+
+EXPOSE 3306
 
 # Start Mariadb service
-CMD ["mariadb"]
+CMD ["mariadbd", "--user=root"]

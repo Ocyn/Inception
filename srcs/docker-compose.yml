@@ -11,12 +11,12 @@ services:
     build:
       context: ./mariadb
     volumes:
-      - db-mariadb
+      - /home/jcuzin/data:/mariaDB/
     networks:
       - dock_net
 
-volumes:
-  db-mariadb:
+# volumes:
+#   mariaDB:
 
 networks:
   dock_net:
