@@ -31,6 +31,8 @@ stop:
 clean:
 	$(DOCKER_C) -f $(SRC_DIR) down -v --rmi all
 
+fclean: clean
+	
 
 restart: down all
 

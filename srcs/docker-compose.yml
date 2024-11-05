@@ -10,8 +10,13 @@ services:
   mariadb:
     build:
       context: ./mariadb
+    volumes:
+      - db-mariadb
     networks:
       - dock_net
+
+volumes:
+  db-mariadb:
 
 networks:
   dock_net:
