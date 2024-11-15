@@ -31,7 +31,10 @@ stop:
 clean:
 	$(DOCKER_C) -f $(SRC_DIR) down -v --rmi all
 
-fclean: clean
+prune:
+	docker system prune -f --all
+
+fclean: clean prune
 	
 
 restart: down all
