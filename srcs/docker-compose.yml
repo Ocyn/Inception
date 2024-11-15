@@ -19,6 +19,8 @@ services:
       context: ./mariadb
     volumes:
       - /home/jcuzin/data:/mariaDB/
+    ports:
+      - "3306:3306" # A retirer, c'est uniquement pour des tests mon reuf
     networks:
       - dock_net
     env_file:
