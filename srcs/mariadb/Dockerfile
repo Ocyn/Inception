@@ -1,21 +1,22 @@
 # OS
-FROM debian:11-slim
+FROM alpine:3.19.3
 
 # Update apk, install mariadb then clear the cache
 
-RUN apt update -y && apt upgrade -y && \
-	apt install -y mariadb-server && \
-	apt clean && \
-	rm -fr /var/lib/apt/lists/*
+RUN apk update && apk upgrade && \
+	apk add --no-cache mariadb mariadb-client openrc 
 
-RUN service mariadb start && \
-	mariadb -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'yuri';" \
+RUN openrc && \
+touch /run/openrc/softlevel
+
+RUN /etc/init.d/mariadb setup && \
+	rc-service mariadb start && \
+	mariadb -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'yuri';" \
 	-e "CREATE DATABASE IF NOT EXISTS wordpress_db;" \
 	-e "CREATE USER IF NOT EXISTS wordpress_usr IDENTIFIED BY 'yuri';" \
 	-e "GRANT ALL PRIVILEGES ON wordpress_db.* TO 'wordpress_usr';" \
 	-e "FLUSH PRIVILEGES;"
 
-
 EXPOSE 3306
 
-CMD ["mariadbd", "--bind-address=0.0.0.0"]
+CMD ["mariadbd", "--user=mysql" ,"--skip-networking"]
