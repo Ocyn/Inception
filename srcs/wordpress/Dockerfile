@@ -3,27 +3,24 @@ FROM alpine:3.19.3
 
 # Update apk, install mariadb then clear the cache
 RUN apk update; apk upgrade; \
-apk add --no-cache lighttpd php82 fcgi php82-cgi wget openrc mysql mysql-client php82-mysqli; \
+apk add --no-cache lighttpd php82 php82-fpm php82-cgi curl php82-mysqli php82-phar php82-mbstring php82-json php82-openssl \
+mariadb-client; \
 rm -rf /var/cache/apk/*
 
-RUN mkdir /run/openrc/ ; touch /run/openrc/softlevel; openrc
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+chmod +x wp-cli.phar && \
+mv wp-cli.phar /usr/local/bin/wp && \
+wp cli update
 
-COPY ./src/mylighttpd.conf /etc/lighttpd/lighttpd.conf.d/
-COPY ./src/mylmod_fastcgi.conf /etc/lighttpd/mod_fastcgi.conf.d/
+RUN mkdir -p /var/www/html
 
-RUN rc-service lighttpd start ; rc-update add lighttpd default; rc-service lighttpd restart
+WORKDIR /var/www/html
 
-RUN mkdir -p /usr/share/webapps/ ; \
-cd /usr/share/webapps/ ; \
-wget https://wordpress.org/latest.tar.gz ; \
-tar -xzvf latest.tar.gz ; \
-rm latest.tar.gz ; \
-chown -R lighttpd /usr/share/webapps/ ; \
-ln -s /usr/share/webapps/wordpress/ /var/www/localhost/htdocs/wordpress ;
+# COPY src/mylighttpd.conf /etc/lighttpd/lighttpd.conf.d/
+# COPY src/mylmod_fastcgi.conf /etc/lighttpd/lighttpd.conf.d/
 
-COPY ./src/wp-config.php /usr/share/wordpress/
+COPY src/install.sh /bin/
 
-EXPOSE 3306
+RUN chmod +x /bin/install.sh
 
-# Start Mariadb service
-CMD ["lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf"]
+ENTRYPOINT [ "install.sh" ]

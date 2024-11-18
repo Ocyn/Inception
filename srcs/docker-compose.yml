@@ -7,13 +7,13 @@ services:
       - "443:443"
     networks:
       - dock_net
-  # wordpress:
-  #   build:
-  #     context: ./wordpress
-  #   volumes:
-  #     - /home/jcuzin/data:/wordpress/
-  #   networks:
-  #     - dock_net
+  wordpress:
+    build:
+      context: ./wordpress
+    volumes:
+      - /home/jcuzin/data:/wordpress/
+    networks:
+      - dock_net
   mariadb:
     build:
       context: ./mariadb

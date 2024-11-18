@@ -19,4 +19,4 @@ RUN /etc/init.d/mariadb setup && \
 
 EXPOSE 3306
 
-CMD ["mariadbd", "--user=mysql" ,"--skip-networking"]
+CMD ["mariadbd", "--user=mysql" ,"--skip-networking=0"] 
