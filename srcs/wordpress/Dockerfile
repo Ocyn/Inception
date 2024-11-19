@@ -16,9 +16,6 @@ RUN mkdir -p /var/www/html
 
 WORKDIR /var/www/html
 
-# COPY src/mylighttpd.conf /etc/lighttpd/lighttpd.conf.d/
-# COPY src/mylmod_fastcgi.conf /etc/lighttpd/lighttpd.conf.d/
-
 COPY src/install.sh /bin/
 
 RUN chmod +x /bin/install.sh

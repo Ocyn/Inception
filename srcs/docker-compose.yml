@@ -1,26 +1,29 @@
 
 services:
   nginx:
+    container_name: nginx
     build:
       context: ./nginx
     ports:
       - "443:443"
     networks:
       - dock_net
+    volumes:
+      - wordpress:/var/www/html
   wordpress:
+    container_name: wordpress
     build:
       context: ./wordpress
     volumes:
-      - /home/jcuzin/data:/wordpress/
+      - wordpress:/var/www/html
     networks:
       - dock_net
   mariadb:
+    container_name: mariadb
     build:
       context: ./mariadb
     volumes:
-      - /home/jcuzin/data:/mariaDB/
-    ports:
-      - "3306:3306" # A retirer, c'est uniquement pour des tests mon reuf
+      - mariadb:/var/lib/mysql
     networks:
       - dock_net
     env_file:
@@ -29,3 +32,17 @@ services:
 networks:
   dock_net:
     driver: bridge
+
+volumes:
+  wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      device: "/home/jcuzin/data/wordpress"
+      o: bind
+  mariadb:
+    driver: local
+    driver_opts:
+      type: none
+      device: "/home/jcuzin/data/mariadb"
+      o: bind

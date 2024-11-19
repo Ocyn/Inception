@@ -20,6 +20,8 @@ DOCKER_C = docker-compose
 all: $(NAME)
 
 $(NAME):
+	mkdir -p /home/jcuzin/data/wordpress /home/jcuzin/data/mariadb
+	chmod +wr /home/jcuzin/data/wordpress /home/jcuzin/data/mariadb
 	$(DOCKER_C) -f $(SRC_DIR) up --build -d
 
 down:
@@ -35,11 +37,12 @@ prune:
 	docker system prune -f --all
 
 fclean: clean prune
+	sudo rm -rf ~/data/*
 	
 
 restart: down all
 
-re: clean all
+re: fclean all
 
 
 
