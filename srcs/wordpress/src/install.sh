@@ -21,6 +21,11 @@ if ! wp-core is-installed; then
 	--skip-email;
 
 	wp user create ${WP_USERNAME} ${WP_USER_MAIL} --role=author --user_pass=${WP_USER_PASSWD}
+
+	echo "define('FS_METHOD', 'direct');" >> /var/www/html/wp-config.php
+	
+	chown -R nobody:nobody /var/www/html
+	chmod -R 755 /var/www/html
 fi
 
 
