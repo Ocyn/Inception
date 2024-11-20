@@ -14,14 +14,28 @@ services:
     container_name: wordpress
     build:
       context: ./wordpress
+      args:
+      - WP_ADMINNAME
+      - WP_ADMIN_MAIL
+      - WP_ADMIN_PASSWD
+      - WP_USERNAME
+      - WP_USER_MAIL
+      - WP_USER_PASSWD
     volumes:
       - wordpress:/var/www/html
     networks:
       - dock_net
+    env_file:
+      - .env
   mariadb:
     container_name: mariadb
     build:
       context: ./mariadb
+      args:
+      - DB_ROOT_PASSWORD
+      - DB_USER
+      - DB_PASSWORD
+      - DB_NAME
     volumes:
       - mariadb:/var/lib/mysql
     networks:

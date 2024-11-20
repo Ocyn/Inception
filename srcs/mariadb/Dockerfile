@@ -6,15 +6,20 @@ FROM alpine:3.19.3
 RUN apk update && apk upgrade && \
 	apk add --no-cache mariadb mariadb-client openrc 
 
+ARG DB_ROOT_PASSWORD
+ARG DB_USER
+ARG DB_PASSWORD
+ARG DB_NAME
+
 RUN openrc && \
 touch /run/openrc/softlevel
 
 RUN /etc/init.d/mariadb setup && \
 	rc-service mariadb start && \
-	mariadb -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'yuri';" \
-	-e "CREATE DATABASE IF NOT EXISTS wordpress_db;" \
-	-e "CREATE USER IF NOT EXISTS wordpress_usr IDENTIFIED BY 'yuri';" \
-	-e "GRANT ALL PRIVILEGES ON wordpress_db.* TO 'wordpress_usr';" \
+	mariadb -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}';" \
+	-e "CREATE DATABASE IF NOT EXISTS ${DB_NAME};" \
+	-e "CREATE USER IF NOT EXISTS wordpress_usr IDENTIFIED BY '${DB_PASSWORD}';" \
+	-e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}';" \
 	-e "FLUSH PRIVILEGES;"
 
 EXPOSE 3306

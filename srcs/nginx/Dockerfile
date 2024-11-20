@@ -11,7 +11,7 @@ RUN openssl req -x509 -nodes -newkey rsa:2048 \
 -keyout /etc/ssl/jcuzin.42.fr.key -out /etc/ssl/jcuzin.42.fr.crt \
 -subj "/C=FR/L=Lyon/O=42/OU=42Lyon/CN=jcuzin"
 
-COPY ./src/nginx.conf /etc/nginx/nginx.conf.d/
+COPY ./src/nginx.conf /etc/nginx/http.d/nginx.conf
 
 EXPOSE 443
 
