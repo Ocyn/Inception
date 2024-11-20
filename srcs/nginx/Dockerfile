@@ -13,7 +13,7 @@ RUN openssl req -x509 -nodes -newkey rsa:2048 \
 
 COPY ./src/nginx.conf /etc/nginx/nginx.conf.d/
 
-EXPOSE 9000
+EXPOSE 443
 
 # Start Nginx service
 CMD ["nginx", "-g", "daemon off;"]

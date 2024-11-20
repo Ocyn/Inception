@@ -20,8 +20,8 @@ DOCKER_C = docker-compose
 all: $(NAME)
 
 $(NAME):
-	mkdir -p /home/jcuzin/data/wordpress /home/jcuzin/data/mariadb
-	chmod +wr /home/jcuzin/data/wordpress /home/jcuzin/data/mariadb
+	sudo mkdir -p /home/jcuzin/data/wordpress /home/jcuzin/data/mariadb
+	sudo chmod +wr /home/jcuzin/data/wordpress /home/jcuzin/data/mariadb
 	$(DOCKER_C) -f $(SRC_DIR) up --build -d
 
 down:
