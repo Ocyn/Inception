@@ -12,15 +12,11 @@ services:
       - wordpress:/var/www/html
   wordpress:
     container_name: wordpress
+    depends_on:
+      - mariadb
+      - nginx
     build:
       context: ./wordpress
-      args:
-      - WP_ADMINNAME
-      - WP_ADMIN_MAIL
-      - WP_ADMIN_PASSWD
-      - WP_USERNAME
-      - WP_USER_MAIL
-      - WP_USER_PASSWD
     volumes:
       - wordpress:/var/www/html
     networks:

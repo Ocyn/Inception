@@ -18,7 +18,7 @@ RUN /etc/init.d/mariadb setup && \
 	rc-service mariadb start && \
 	mariadb -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}';" \
 	-e "CREATE DATABASE IF NOT EXISTS ${DB_NAME};" \
-	-e "CREATE USER IF NOT EXISTS wordpress_usr IDENTIFIED BY '${DB_PASSWORD}';" \
+	-e "CREATE USER IF NOT EXISTS '${DB_USER}' IDENTIFIED BY '${DB_PASSWORD}';" \
 	-e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}';" \
 	-e "FLUSH PRIVILEGES;"
 
